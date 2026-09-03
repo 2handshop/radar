@@ -20,17 +20,18 @@
                     <h1 class="text-2xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500">
                         ⚡ XIANYU SNEAKER HUNTER
                     </h1>
-                    <p class="text-xs text-slate-400 mt-0.5">Săn deal giày 2hand tự động • Lọc rác & Hàng nhái theo thời gian thực</p>
+                    <p class="text-xs text-slate-400 mt-0.5">Tích hợp AI Monitor: Chỉ hiển thị giày vừa mới đăng tải</p>
                 </div>
-                <div class="flex items-center gap-2">
-                    <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                    <span class="text-xs font-semibold uppercase tracking-wider text-slate-300">Xianyu Dedicated Node V1</span>
+                <div class="flex items-center gap-3">
+                    <button onclick="clearMemory()" class="text-xs bg-rose-900 hover:bg-rose-800 text-rose-300 px-3 py-1.5 rounded-lg transition border border-rose-700/50">
+                        🗑️ Xóa bộ nhớ Bot
+                    </button>
                 </div>
             </div>
 
-            <!-- Gợi ý từ khóa tiếng Việt -->
+            <!-- Gợi ý từ khóa -->
             <div class="mb-5">
-                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Hãng gợi ý (Giao diện Việt ➔ Query Trung):</p>
+                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Từ khóa Real 2Hand (Đồ cá nhân thanh lý):</p>
                 <div class="flex flex-wrap gap-2" id="keywordChips"></div>
             </div>
 
@@ -38,81 +39,89 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4 items-end">
                 <div class="lg:col-span-2">
                     <label class="block text-xs font-semibold text-slate-300 mb-1.5">Từ khóa tìm kiếm (Gửi đi)</label>
-                    <input type="text" id="keywordInput" class="w-full bg-slate-950 border border-slate-700 px-3.5 py-2 rounded-xl text-sm text-white focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition" placeholder="VD: Nike 鞋, 椰子 鞋...">
+                    <input type="text" id="keywordInput" class="w-full bg-slate-950 border border-slate-700 px-3.5 py-2 rounded-xl text-sm text-white focus:ring-2 focus:ring-amber-500 outline-none transition" placeholder="VD: Nike 个人闲置">
                 </div>
                 <div>
                     <label class="block text-xs font-semibold text-slate-300 mb-1.5">Giá thấp nhất (¥)</label>
-                    <input type="number" id="minPrice" class="w-full bg-slate-950 border border-slate-700 px-3.5 py-2 rounded-xl text-sm text-white focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition" value="80">
+                    <input type="number" id="minPrice" class="w-full bg-slate-950 border border-slate-700 px-3.5 py-2 rounded-xl text-sm text-white focus:ring-2 focus:ring-amber-500 outline-none transition" value="80">
                 </div>
                 <div>
                     <label class="block text-xs font-semibold text-slate-300 mb-1.5">Giá cao nhất (¥)</label>
-                    <input type="number" id="maxPrice" class="w-full bg-slate-950 border border-slate-700 px-3.5 py-2 rounded-xl text-sm text-white focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition" value="650">
+                    <input type="number" id="maxPrice" class="w-full bg-slate-950 border border-slate-700 px-3.5 py-2 rounded-xl text-sm text-white focus:ring-2 focus:ring-amber-500 outline-none transition" value="650">
                 </div>
                 <div>
-                    <label class="block text-xs font-semibold text-slate-300 mb-1.5">Trang quét (Page)</label>
-                    <input type="number" id="pageNumber" min="1" class="w-full bg-slate-950 border border-slate-700 px-3.5 py-2 rounded-xl text-sm text-white focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition" value="1">
+                    <label class="block text-xs font-semibold text-slate-300 mb-1.5">Bộ lọc Bot</label>
+                    <label class="flex items-center space-x-2 bg-slate-950 border border-slate-700 px-3 py-2 rounded-xl cursor-pointer hover:border-amber-500 transition">
+                        <input type="checkbox" id="onlyNewToggle" checked class="w-4 h-4 text-amber-500 rounded focus:ring-amber-500 bg-slate-800 border-slate-600">
+                        <span class="text-xs text-amber-400 font-bold tracking-wide">Chỉ Hiện Bài Mới</span>
+                    </label>
                 </div>
                 <div>
-                    <button id="startBtn" onclick="startScan()" class="w-full bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-slate-950 font-extrabold py-2 px-4 rounded-xl text-sm transition shadow-lg shadow-orange-500/20 active:scale-[0.98]">
-                        🔍 Quét Deal Mới
+                    <button id="startBtn" onclick="startScan()" class="w-full bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-slate-950 font-extrabold py-2 px-2 rounded-xl text-sm transition shadow-lg active:scale-[0.98]">
+                        🔍 Quét Deal
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- Terminal hiển thị tiến trình -->
+        <!-- Terminal -->
         <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-lg">
-            <div class="flex items-center justify-between border-b border-slate-800 pb-2 mb-3">
-                <span class="text-xs font-mono text-slate-400 flex items-center gap-2">
-                    <span class="w-2 h-2 rounded-full bg-amber-400"></span> TERMINAL TIẾN TRÌNH
-                </span>
-                <span id="statusBadge" class="text-xs font-mono px-2 py-0.5 rounded-full bg-slate-800 text-slate-300">Idle</span>
-            </div>
             <div id="logBox" class="h-32 overflow-y-auto text-xs font-mono space-y-1 text-slate-300">
-                <div class="text-slate-500">[Sẵn sàng] Chọn hãng hoặc nhập từ khóa để bắt đầu quét...</div>
+                <div class="text-slate-500">[Hệ thống] Bot đã sẵn sàng. Bộ nhớ đang lưu: <span id="memoryCount" class="text-amber-400">0</span> deals.</div>
             </div>
         </div>
 
         <!-- Lưới kết quả -->
         <div>
             <div class="flex items-center justify-between mb-4">
-                <h2 class="text-lg font-bold text-slate-200">Danh Sách Deal Tìm Thấy (<span id="countText">0</span>)</h2>
-                <div class="text-xs text-slate-400">Click vào ảnh để zoom chi tiết</div>
+                <h2 class="text-lg font-bold text-slate-200">Deal Vừa Lên Sàn (<span id="countText">0</span>)</h2>
             </div>
             <div id="productGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4"></div>
         </div>
     </div>
 
-    <!-- Modal Xem Ảnh Chi Tiết -->
+    <!-- Modal Xem Ảnh -->
     <div id="imageModal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="relative max-w-4xl max-h-[90vh] w-full flex flex-col items-center">
             <button onclick="closeModal()" class="absolute -top-10 right-0 text-slate-300 hover:text-white text-2xl font-bold bg-slate-800/80 px-3 py-1 rounded-full">✕</button>
             <img id="modalImg" src="" alt="Zoom ảnh giày" class="max-w-full max-h-[80vh] object-contain rounded-lg border border-slate-700 shadow-2xl">
-            <p class="text-xs text-slate-400 mt-3">Nhấn phím ESC hoặc click ra ngoài để đóng</p>
         </div>
     </div>
 
     <script>
-        // Cấu hình API
         const API_KEY = "464b6ecde1mshef2e830fa1c29fep1d646ejsnd12195dcf2fa";
         const API_HOST = "xianyu-2taobao-goofish-api.p.rapidapi.com";
         const API_URL = "https://xianyu-2taobao-goofish-api.p.rapidapi.com/xianyu/search/v1";
 
-        // Từ khóa rủi ro (Blacklist tiếng Trung)
-        const BLACKLIST = ["莆田", "纯原", "公司级", "高仿", "厂货", "尾单", "复刻", "定制", "假", "顶级", "超a", "过验", "1:1"];
+        // Khởi tạo Bộ nhớ Bot (Lưu tối đa 2000 ID để web không bị nặng)
+        let seenItems = JSON.parse(localStorage.getItem('xianyuMemory')) || [];
+        document.getElementById('memoryCount').innerText = seenItems.length;
 
-        // Danh sách từ khóa
+        function clearMemory() {
+            if(confirm("Bạn có chắc muốn xóa bộ nhớ? Các deal cũ sẽ xuất hiện lại trong lần quét tới.")) {
+                seenItems = [];
+                localStorage.setItem('xianyuMemory', JSON.stringify(seenItems));
+                document.getElementById('memoryCount').innerText = 0;
+                log("Đã reset trí nhớ của Bot thành công!", "success");
+            }
+        }
+
+        const BLACKLIST = [
+            "全码", "齐码", "多码", "断码", "情侣款", "鞋码齐全", "男女鞋", "各种码", "都有",
+            "全新", "代购", "专柜", "实体店", "清仓", "代理", "一件代发", "批发", 
+            "莆田", "纯原", "公司级", "高仿", "厂货", "尾单", "复刻", "定制", "假", 
+            "顶级", "超a", "过验", "1:1", "原单", "原厂", "原盒", "支持验货", "放店", 
+            "微商", "店主", "进货渠道", "正品保真"
+        ];
+
         const defaultKeywords = [
-            { label: "Giày Nike", query: "Nike 鞋" },
-            { label: "Giày Adidas", query: "Adidas 鞋" },
-            { label: "Giày New Balance", query: "New Balance 鞋" },
-            { label: "Giày Mizuno", query: "美津浓 鞋" },
-            { label: "Giày Asics", query: "亚瑟士 鞋" },
-            { label: "Giày Yeezy", query: "椰子 鞋" },
-            { label: "Giày Court MZ", query: "Court MZ" },
-            { label: "Giày Drop Step", query: "Drop Step" },
-            { label: "Giày Ultraboost", query: "Ultraboost" },
-            { label: "Giày Onitsuka Tiger", query: "鬼冢虎 鞋" }
+            { label: "Nike Cá Nhân", query: "Nike 个人闲置" },
+            { label: "Nike Cũ", query: "Nike 二手" },
+            { label: "Adidas Cũ", query: "Adidas 二手" },
+            { label: "NewBalance Thanh Lý", query: "New Balance 个人闲置" },
+            { label: "Mizuno Cũ", query: "美津浓 二手" },
+            { label: "Asics Cá Nhân", query: "亚瑟士 个人闲置" },
+            { label: "Yeezy 2Hand", query: "椰子 二手" }
         ];
 
         const keywordChipsDiv = document.getElementById('keywordChips');
@@ -120,23 +129,18 @@
         const logBox = document.getElementById('logBox');
         const productGrid = document.getElementById('productGrid');
         const startBtn = document.getElementById('startBtn');
-        const statusBadge = document.getElementById('statusBadge');
         const countText = document.getElementById('countText');
         const imageModal = document.getElementById('imageModal');
         const modalImg = document.getElementById('modalImg');
 
-        // Tạo nút bấm gợi ý
         defaultKeywords.forEach(item => {
             const btn = document.createElement('button');
             btn.className = "px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-amber-400 text-xs rounded-lg transition border border-slate-700/60 font-medium";
             btn.innerHTML = `${item.label} <span class="text-slate-500 text-[10px]">(${item.query})</span>`;
-            btn.onclick = () => {
-                keywordInput.value = item.query;
-            };
+            btn.onclick = () => { keywordInput.value = item.query; };
             keywordChipsDiv.appendChild(btn);
         });
 
-        // Hàm xuất thông báo Log
         function log(message, type = 'info') {
             const time = new Date().toLocaleTimeString();
             const div = document.createElement('div');
@@ -144,171 +148,133 @@
             if (type === 'error') color = "text-rose-400 font-semibold";
             if (type === 'warn') color = "text-amber-400";
             if (type === 'success') color = "text-emerald-400 font-semibold";
-
             div.className = color;
             div.innerHTML = `<span class="text-slate-600">[${time}]</span> ${message}`;
             logBox.appendChild(div);
             logBox.scrollTop = logBox.scrollHeight;
         }
 
-        // Chức năng Modal xem ảnh
-        function openImage(url) {
-            modalImg.src = url;
-            imageModal.classList.remove('hidden');
+        function openImage(url) { modalImg.src = url; imageModal.classList.remove('hidden'); }
+        function closeModal() { imageModal.classList.add('hidden'); modalImg.src = ""; }
+        imageModal.onclick = (e) => { if (e.target === imageModal) closeModal(); };
+        document.addEventListener('keydown', (e) => { if (e.key === "Escape") closeModal(); });
+
+        function checkBlacklist(text) {
+            if (!text) return null;
+            for (let word of BLACKLIST) {
+                if (text.includes(word)) return word; 
+            }
+            return null;
         }
 
-        function closeModal() {
-            imageModal.classList.add('hidden');
-            modalImg.src = "";
-        }
-
-        imageModal.onclick = (e) => {
-            if (e.target === imageModal) closeModal();
-        };
-
-        document.addEventListener('keydown', (e) => {
-            if (e.key === "Escape") closeModal();
-        });
-
-        // Kiểm tra danh sách đen
-        function isBlacklisted(text) {
-            if (!text) return false;
-            return BLACKLIST.some(word => text.includes(word));
-        }
-
-        // Hàm chính: Quét sản phẩm
         async function startScan() {
             const keyword = keywordInput.value.trim();
             const minPrice = parseFloat(document.getElementById('minPrice').value) || 0;
             const maxPrice = parseFloat(document.getElementById('maxPrice').value) || 999999;
-            const page = parseInt(document.getElementById('pageNumber').value) || 1;
+            const isOnlyNew = document.getElementById('onlyNewToggle').checked;
 
-            if (!keyword) {
-                log("Lỗi: Vui lòng nhập hoặc chọn một từ khóa cần quét!", "error");
-                return;
-            }
+            if (!keyword) return log("Vui lòng nhập từ khóa tìm kiếm!", "error");
 
-            // Giao diện chuyển sang trạng thái Loading
             startBtn.disabled = true;
             startBtn.classList.add('opacity-50', 'cursor-not-allowed');
-            statusBadge.innerText = "Scanning...";
-            statusBadge.className = "text-xs font-mono px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400";
             productGrid.innerHTML = "";
             countText.innerText = "0";
 
-            log(`Bắt đầu truy vấn Xianyu | Từ khóa: "${keyword}" | Trang: ${page}`, "warn");
+            log(`Bot bắt đầu dò tìm: "${keyword}"`, "warn");
 
             try {
-                const url = `${API_URL}?keyword=${encodeURIComponent(keyword)}&page=${page}`;
-
-                log("Đang kết nối tới máy chủ RapidAPI...");
+                // Đưa tham số &sort=new vào thử nghiệm xem API có nhận không
+                const url = `${API_URL}?keyword=${encodeURIComponent(keyword)}&page=1&sort=new`;
                 const response = await fetch(url, {
                     method: 'GET',
-                    headers: {
-                        'X-RapidAPI-Key': API_KEY,
-                        'X-RapidAPI-Host': API_HOST,
-                        'Content-Type': 'application/json'
-                    }
+                    headers: { 'X-RapidAPI-Key': API_KEY, 'X-RapidAPI-Host': API_HOST, 'Content-Type': 'application/json' }
                 });
 
-                if (!response.ok) {
-                    throw new Error(`HTTP Lỗi ${response.status}`);
-                }
-
+                if (!response.ok) throw new Error(`HTTP Lỗi ${response.status}`);
                 const result = await response.json();
                 
-                // MẤU CHỐT FIX LỖI Ở ĐÂY: Đọc đúng cấu trúc result.data.item
                 let items = [];
-                if (result.data && Array.isArray(result.data.item)) {
-                    items = result.data.item;
-                } else if (result.data && Array.isArray(result.data.items)) {
-                    items = result.data.items;
-                } else if (result.items && Array.isArray(result.items)) {
-                    items = result.items;
-                } else if (Array.isArray(result)) {
-                    items = result;
-                }
+                if (result.data && Array.isArray(result.data.item)) items = result.data.item;
+                else if (result.data && Array.isArray(result.data.items)) items = result.data.items;
+                else if (result.items && Array.isArray(result.items)) items = result.items;
+                else if (Array.isArray(result)) items = result;
 
                 if (items.length === 0) {
-                    log("Không tìm thấy sản phẩm nào hoặc đã đến trang cuối cùng.", "warn");
-                    statusBadge.innerText = "Empty";
-                    statusBadge.className = "text-xs font-mono px-2 py-0.5 rounded-full bg-slate-500/20 text-slate-400";
+                    log("Không tìm thấy kết quả.", "warn");
                     return;
                 }
 
-                log(`Nhận về ${items.length} bài đăng thô từ Xianyu. Đang lọc giá và kiểm duyệt rác...`);
+                log(`Nhặt được ${items.length} bài đăng. Tiến hành lọc trùng lặp và rác...`);
 
-                let validCount = 0;
-                let fakeCount = 0;
-                let priceSkipCount = 0;
+                let validCount = 0, fakeCount = 0, oldSkipCount = 0;
+                let newItemsFound = [];
 
                 items.forEach(item => {
                     const title = item.title || item.desc || "";
-                    const priceRaw = item.price || 0;
-                    const price = parseFloat(priceRaw);
-                    
-                    // Linh hoạt bóc tách hình ảnh và link từ Xianyu
-                    const imgUrl = item.pic_url || item.pic || item.imageUrl || "https://placehold.co/400x400/1e293b/white?text=No+Image";
-                    const itemUrl = item.detail_url || item.item_url || (item.item_id ? `https://2.taobao.com/item.htm?id=${item.item_id}` : "#");
+                    const price = parseFloat(item.price || 0);
+                    // Lấy ID duy nhất của sản phẩm
+                    const itemId = item.item_id || item.id || title; 
 
-                    // 1. Lọc hàng fake
-                    if (isBlacklisted(title)) {
+                    // 1. Kiểm tra bộ nhớ Bot (Đã thấy deal này chưa?)
+                    const isNewDeal = !seenItems.includes(itemId);
+
+                    if (isOnlyNew && !isNewDeal) {
+                        oldSkipCount++;
+                        return; // Bỏ qua vì deal này đã cũ
+                    }
+
+                    // 2. Lọc gian thương
+                    if (checkBlacklist(title)) {
                         fakeCount++;
                         return;
                     }
 
-                    // 2. Lọc khung giá
-                    if (price < minPrice || price > maxPrice) {
-                        priceSkipCount++;
-                        return;
-                    }
+                    // 3. Lọc giá
+                    if (price < minPrice || price > maxPrice) return;
 
+                    // Lọt qua các màng lọc ➔ Chính thức là Deal Mới!
                     validCount++;
+                    if (isNewDeal) newItemsFound.push(itemId);
 
-                    // 3. Render HTML thẻ sản phẩm
+                    const imgUrl = item.pic_url || item.pic || item.imageUrl || "https://placehold.co/400x400/1e293b/white?text=No+Image";
+                    const itemUrl = item.detail_url || item.item_url || (item.item_id ? `https://2.taobao.com/item.htm?id=${item.item_id}` : "#");
+
+                    // 4. Render HTML
                     const card = document.createElement('div');
-                    card.className = "bg-slate-900 border border-slate-800 rounded-xl overflow-hidden hover:border-slate-700 transition duration-200 flex flex-col group";
+                    card.className = "bg-slate-900 border border-slate-800 rounded-xl overflow-hidden hover:border-slate-700 transition duration-200 flex flex-col group relative";
                     card.innerHTML = `
+                        ${isNewDeal ? '<div class="absolute top-2 right-2 z-10 bg-rose-600 text-white text-[9px] font-black px-2 py-1 rounded-full shadow-lg shadow-rose-900/50 animate-pulse">🔥 MỚI UP</div>' : ''}
                         <div class="relative w-full aspect-square bg-slate-950 overflow-hidden cursor-pointer">
                             <img src="${imgUrl}" alt="Sneaker" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" onclick="openImage('${imgUrl}')">
-                            <span class="absolute bottom-2 left-2 bg-black/70 text-slate-300 text-[10px] px-2 py-0.5 rounded backdrop-blur-md">
-                                🔍 Click để zoom
-                            </span>
                         </div>
                         <div class="p-3 flex flex-col flex-grow justify-between">
-                            <div>
-                                <h3 class="text-xs text-slate-200 line-clamp-2 leading-relaxed font-medium" title="${title}">
-                                    ${title}
-                                </h3>
-                            </div>
+                            <div><h3 class="text-xs text-slate-200 line-clamp-2 leading-relaxed font-medium" title="${title}">${title}</h3></div>
                             <div class="mt-3 pt-2 border-t border-slate-800 flex items-center justify-between">
-                                <div>
-                                    <span class="text-xs text-slate-500 font-mono">¥</span>
-                                    <span class="text-base font-black text-amber-400 font-mono">${price}</span>
-                                </div>
-                                <a href="${itemUrl}" target="_blank" class="bg-amber-400 hover:bg-amber-300 text-slate-950 text-[11px] font-bold px-2.5 py-1.5 rounded-lg transition active:scale-95 flex items-center gap-1">
-                                    Mở App ➜
-                                </a>
+                                <div><span class="text-xs text-slate-500 font-mono">¥</span><span class="text-base font-black text-amber-400 font-mono">${price}</span></div>
+                                <a href="${itemUrl}" target="_blank" class="bg-amber-400 hover:bg-amber-300 text-slate-950 text-[11px] font-bold px-2.5 py-1.5 rounded-lg transition active:scale-95">Mở App ➜</a>
                             </div>
                         </div>
                     `;
                     productGrid.appendChild(card);
                 });
 
-                countText.innerText = validCount;
-                log(`Đã chặn: ${fakeCount} bài đăng dính từ khóa Fake.`, "warn");
-                log(`Loại trừ: ${priceSkipCount} bài đăng nằm ngoài giá.`, "warn");
-                log(`Quét hoàn tất: Có ${validCount} deal hợp lệ lên bảng!`, "success");
+                // Cập nhật bộ nhớ Bot
+                if (newItemsFound.length > 0) {
+                    seenItems = [...newItemsFound, ...seenItems].slice(0, 2000); // Lưu tối đa 2000 deal gần nhất
+                    localStorage.setItem('xianyuMemory', JSON.stringify(seenItems));
+                    document.getElementById('memoryCount').innerText = seenItems.length;
+                }
 
-                statusBadge.innerText = "Completed";
-                statusBadge.className = "text-xs font-mono px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400";
+                countText.innerText = validCount;
+                log(`Đã Block ${fakeCount} shop rác.`, "success");
+                if (isOnlyNew) {
+                    log(`Đã ẩn ${oldSkipCount} deal cũ. Chỉ hiển thị deal vừa lên sàn!`, "warn");
+                }
+                log(`=> PHÁT HIỆN ${validCount} DEAL MỚI HOÀN TOÀN!`, "success");
 
             } catch (err) {
                 log(`Lỗi thực thi: ${err.message}`, "error");
-                statusBadge.innerText = "Error";
-                statusBadge.className = "text-xs font-mono px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-400";
             } finally {
-                // Phục hồi lại nút quét
                 startBtn.disabled = false;
                 startBtn.classList.remove('opacity-50', 'cursor-not-allowed');
             }
