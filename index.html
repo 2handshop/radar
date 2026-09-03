@@ -14,13 +14,14 @@
 <body class="bg-slate-950 text-slate-100 font-sans min-h-screen p-3">
 
     <div class="max-w-7xl mx-auto space-y-3">
+        <!-- Control Panel -->
         <div class="bg-slate-900 border border-slate-800 p-3.5 rounded-2xl shadow-xl space-y-3">
             <div class="flex items-center justify-between">
                 <div>
                     <h1 class="text-lg font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500">
                         ⚡ XIANYU iOS CLEAN
                     </h1>
-                    <p class="text-[11px] text-slate-400">Tối ưu chống văn mẫu xưởng • Dịch thông minh</p>
+                    <p class="text-[11px] text-slate-400">Đã nới lỏng bộ lọc: Chấp nhận Unisex, Có sẵn, Hàng Auth</p>
                 </div>
                 <div>
                     <button onclick="toggleCurrency()" id="currencyBtn" class="text-[11px] bg-slate-800 text-amber-400 px-3 py-1.5 rounded-xl border border-slate-700 font-bold transition">
@@ -29,10 +30,11 @@
                 </div>
             </div>
 
+            <!-- Ô nhập tiếng Việt & Dịch tiếng Trung -->
             <div class="space-y-2">
                 <div>
                     <label class="block text-[11px] font-semibold text-slate-300 mb-1">Từ khóa (Mẹo: Gõ thêm "xước nhẹ", "không hộp")</label>
-                    <input type="text" id="keywordInput" oninput="autoTranslate()" class="w-full bg-slate-950 border border-slate-700 px-3 py-2 rounded-xl text-sm text-white focus:ring-2 focus:ring-amber-500 outline-none" placeholder="VD: Giày Nike cũ không hộp...">
+                    <input type="text" id="keywordInput" oninput="autoTranslate()" class="w-full bg-slate-950 border border-slate-700 px-3 py-2 rounded-xl text-sm text-white focus:ring-2 focus:ring-amber-500 outline-none" placeholder="VD: Giày Nike cũ...">
                 </div>
 
                 <div>
@@ -44,6 +46,7 @@
                 </div>
             </div>
 
+            <!-- Bộ lọc giá & trang -->
             <div class="grid grid-cols-3 gap-2">
                 <div>
                     <label class="block text-[10px] text-slate-400 mb-1">Giá Min (¥)</label>
@@ -59,6 +62,7 @@
                 </div>
             </div>
 
+            <!-- Nút quét -->
             <div class="pt-1">
                 <button id="startBtn" onclick="startScan()" class="w-full bg-gradient-to-r from-amber-500 to-orange-600 text-slate-950 font-extrabold py-2.5 rounded-xl text-sm shadow-lg active:scale-95 transition">
                     🔍 Quét Deal Xianyu
@@ -66,12 +70,14 @@
             </div>
         </div>
 
+        <!-- Terminal Log -->
         <div class="bg-slate-900 border border-slate-800 rounded-xl p-2.5 shadow-md">
             <div id="logBox" class="h-20 overflow-y-auto text-[11px] font-mono space-y-1 text-slate-300">
-                <div class="text-slate-500">[Hệ thống] Đã kích hoạt bộ lọc Văn Mẫu Xưởng chống gian thương.</div>
+                <div class="text-slate-500">[Hệ thống] Đã nới lỏng Blacklist theo yêu cầu. Sẵn sàng quét!</div>
             </div>
         </div>
 
+        <!-- Lưới kết quả -->
         <div>
             <div class="flex items-center justify-between mb-2 px-1">
                 <h2 class="text-xs font-bold text-slate-300 uppercase tracking-wider">Kết Quả Chuẩn 2Hand (<span id="countText">0</span>)</h2>
@@ -80,6 +86,7 @@
         </div>
     </div>
 
+    <!-- Modal Xem Ảnh -->
     <div id="imageModal" class="fixed inset-0 z-50 bg-black/95 backdrop-blur-sm hidden flex items-center justify-center p-3">
         <div class="relative max-w-full w-full flex flex-col items-center">
             <button onclick="closeModal()" class="absolute -top-12 right-0 text-white text-lg font-bold bg-slate-800 px-3 py-1 rounded-full">✕ Đóng</button>
@@ -102,13 +109,11 @@
             if(window.lastItemsData) renderProducts(window.lastItemsData);
         }
 
-        // TỪ ĐIỂN TỐI ƯU HÓA: Bơm vitamin "Người thật"
         const dict = {
             "giày": "鞋", "nike": "Nike", "adidas": "Adidas", "new balance": "New Balance", 
             "nb": "NB", "mizuno": "美津浓", "asics": "亚瑟士", "yeezy": "椰子", 
             "onitsuka tiger": "鬼冢虎", "cũ": "二手", "2hand": "二手", "thanh lý": "个人闲置",
             "chính hãng": "正品", "nam": "男", "nữ": "女",
-            // Từ khóa ép người dùng thật
             "xước nhẹ": "微瑕", "không hộp": "无盒", "poizon": "得物", "đắc vật": "得物入"
         };
 
@@ -136,17 +141,17 @@
             alert("Đã copy Link App! Hãy mở app Xianyu.");
         }
 
-        // BLACKLIST CHUYÊN SÂU: Chém bay văn mẫu xưởng
+        // BLACKLIST CẬP NHẬT: Đã gỡ Hộp gốc, Unisex, Có sẵn, Hàng Auth
         const BLACKLIST = [
-            // Size & Màu sắc (Dấu hiệu shop)
-            "全码", "齐码", "多码", "断码", "情侣款", "鞋码齐全", "男女鞋", "各种码", "都有", "男女同款", "男女", "多色", "颜色齐全",
-            // Hàng mới, Đại lý, Văn mẫu Xưởng
-            "现货", "全新", "代购", "专柜", "实体店", "清仓", "代理", "一件代发", "批发", "厂家直销", "微商", "店主", 
+            // Size & Màu sắc (Dấu hiệu gian thương bán buôn)
+            "全码", "齐码", "多码", "断码", "鞋码齐全", "各种码", "都有", "多色", "颜色齐全",
+            // Hàng mới, Đại lý
+            "全新", "代购", "实体店", "清仓", "代理", "一件代发", "批发", "厂家直销", "微商", "店主", 
             // Thuật ngữ Fake / Chợ đen
             "莆田", "纯原", "公司级", "高仿", "厂货", "尾单", "复刻", "定制", "假", 
-            "顶级", "超a", "过验", "1:1", "原单", "原厂", "原盒", "支持验货", "放店", 
+            "顶级", "超a", "1:1", "原单", "原厂", "放店", 
             // Bịp bợm, spam
-            "进货渠道", "正品保真", "非偏远包邮"
+            "进货渠道", "非偏远包邮"
         ];
 
         function log(message, type = 'info') {
@@ -235,7 +240,7 @@
                 const priceRMB = parseFloat(item.price || 0);
                 const itemId = item.item_id || item.id || ""; 
 
-                // 1. Lọc rác & Văn mẫu
+                // 1. Lọc rác
                 const blockedWord = checkBlacklist(title);
                 if (blockedWord) { 
                     fakeCount++; 
@@ -284,9 +289,8 @@
 
             document.getElementById('countText').innerText = validCount;
             
-            log(`Quét thành công! Chặn ${fakeCount} bài đăng dính văn mẫu xưởng.`, "success");
+            log(`Quét xong! Đã chặn ${fakeCount} tin rác.`, "success");
             
-            // Log lý do chặn cụ thể để bạn kiểm soát
             let reasonString = Object.entries(blockReasons)
                     .map(([word, count]) => `${word}: ${count}`)
                     .join(' | ');
