@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Xianyu Sneaker Hunter iOS 6H</title>
+    <title>Xianyu Sneaker Hunter Pro</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         #logBox::-webkit-scrollbar { width: 3px; }
@@ -14,42 +14,36 @@
 <body class="bg-slate-950 text-slate-100 font-sans min-h-screen p-3">
 
     <div class="max-w-7xl mx-auto space-y-3">
-        <!-- Control Panel -->
         <div class="bg-slate-900 border border-slate-800 p-3.5 rounded-2xl shadow-xl space-y-3">
             <div class="flex items-center justify-between">
                 <div>
                     <h1 class="text-lg font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500">
-                        ⚡ XIANYU iOS HUNTER (6H)
+                        ⚡ XIANYU iOS CLEAN
                     </h1>
-                    <p class="text-[11px] text-slate-400">Tự động dịch Trung • 1¥ = 4,500đ • Giới hạn làm mới 6h</p>
+                    <p class="text-[11px] text-slate-400">Tối ưu chống văn mẫu xưởng • Dịch thông minh</p>
                 </div>
-                <div class="flex items-center gap-1.5">
-                    <button onclick="toggleCurrency()" id="currencyBtn" class="text-[11px] bg-slate-800 text-amber-400 px-2.5 py-1.5 rounded-xl border border-slate-700 font-bold">
+                <div>
+                    <button onclick="toggleCurrency()" id="currencyBtn" class="text-[11px] bg-slate-800 text-amber-400 px-3 py-1.5 rounded-xl border border-slate-700 font-bold transition">
                         💱 VNĐ (ON)
-                    </button>
-                    <button onclick="clearMemory()" class="text-[11px] bg-rose-950/80 text-rose-300 px-2 py-1.5 rounded-xl border border-rose-800/50">
-                        🗑️ Bot
                     </button>
                 </div>
             </div>
 
-            <!-- Ô nhập tiếng Việt & Dịch tiếng Trung -->
             <div class="space-y-2">
                 <div>
-                    <label class="block text-[11px] font-semibold text-slate-300 mb-1">Nhập tiếng Việt (Ví dụ: Giày Nike 2hand)</label>
-                    <input type="text" id="keywordInput" oninput="autoTranslate()" class="w-full bg-slate-950 border border-slate-700 px-3 py-2 rounded-xl text-sm text-white focus:ring-2 focus:ring-amber-500 outline-none" placeholder="Nhập từ khóa...">
+                    <label class="block text-[11px] font-semibold text-slate-300 mb-1">Từ khóa (Mẹo: Gõ thêm "xước nhẹ", "không hộp")</label>
+                    <input type="text" id="keywordInput" oninput="autoTranslate()" class="w-full bg-slate-950 border border-slate-700 px-3 py-2 rounded-xl text-sm text-white focus:ring-2 focus:ring-amber-500 outline-none" placeholder="VD: Giày Nike cũ không hộp...">
                 </div>
 
                 <div>
                     <div class="flex justify-between items-center mb-1">
-                        <label class="text-[11px] font-semibold text-amber-400">Tiếng Trung (Tự động dịch)</label>
-                        <button onclick="copyTranslated()" class="text-[10px] text-amber-300 bg-amber-500/20 px-2 py-0.5 rounded border border-amber-500/30">📋 Copy</button>
+                        <label class="text-[11px] font-semibold text-amber-400">Truy vấn gửi đi (Tự động dịch)</label>
+                        <button onclick="copyTranslated()" class="text-[10px] text-amber-300 bg-amber-500/20 px-2 py-0.5 rounded border border-amber-500/30 active:scale-95">📋 Copy</button>
                     </div>
                     <input type="text" id="translatedInput" readonly class="w-full bg-slate-950 border border-amber-500/40 px-3 py-2 rounded-xl text-xs text-amber-300 font-mono outline-none" placeholder="Chờ nhập...">
                 </div>
             </div>
 
-            <!-- Bộ lọc giá & trang -->
             <div class="grid grid-cols-3 gap-2">
                 <div>
                     <label class="block text-[10px] text-slate-400 mb-1">Giá Min (¥)</label>
@@ -65,36 +59,27 @@
                 </div>
             </div>
 
-            <!-- Nút quét & Bot toggle -->
-            <div class="space-y-2 pt-1">
-                <label class="flex items-center justify-center space-x-2 bg-slate-950 border border-slate-700 py-2 rounded-xl cursor-pointer">
-                    <input type="checkbox" id="onlyNewToggle" checked class="w-3.5 h-3.5 text-amber-500 rounded bg-slate-800 border-slate-600">
-                    <span class="text-[11px] text-amber-400 font-bold">Chỉ Hiện Bài Mới (Cửa sổ 6 Tiếng)</span>
-                </label>
+            <div class="pt-1">
                 <button id="startBtn" onclick="startScan()" class="w-full bg-gradient-to-r from-amber-500 to-orange-600 text-slate-950 font-extrabold py-2.5 rounded-xl text-sm shadow-lg active:scale-95 transition">
                     🔍 Quét Deal Xianyu
                 </button>
             </div>
         </div>
 
-        <!-- Terminal Log -->
         <div class="bg-slate-900 border border-slate-800 rounded-xl p-2.5 shadow-md">
             <div id="logBox" class="h-20 overflow-y-auto text-[11px] font-mono space-y-1 text-slate-300">
-                <div class="text-slate-500">[iOS 6H Ready] Sẵn sàng săn deal...</div>
+                <div class="text-slate-500">[Hệ thống] Đã kích hoạt bộ lọc Văn Mẫu Xưởng chống gian thương.</div>
             </div>
         </div>
 
-        <!-- Lưới kết quả -->
         <div>
             <div class="flex items-center justify-between mb-2 px-1">
-                <h2 class="text-xs font-bold text-slate-300 uppercase tracking-wider">Kết Quả (<span id="countText">0</span>)</h2>
-                <span class="text-[10px] text-slate-400">Bộ nhớ 6h: <span id="memoryCount" class="text-amber-400 font-bold">0</span></span>
+                <h2 class="text-xs font-bold text-slate-300 uppercase tracking-wider">Kết Quả Chuẩn 2Hand (<span id="countText">0</span>)</h2>
             </div>
             <div id="productGrid" class="grid grid-cols-2 gap-2"></div>
         </div>
     </div>
 
-    <!-- Modal Xem Ảnh -->
     <div id="imageModal" class="fixed inset-0 z-50 bg-black/95 backdrop-blur-sm hidden flex items-center justify-center p-3">
         <div class="relative max-w-full w-full flex flex-col items-center">
             <button onclick="closeModal()" class="absolute -top-12 right-0 text-white text-lg font-bold bg-slate-800 px-3 py-1 rounded-full">✕ Đóng</button>
@@ -108,38 +93,23 @@
         const API_URL = "https://xianyu-2taobao-goofish-api.p.rapidapi.com/xianyu/search/v1";
 
         let isVND = true;
-        
-        // Quản lý bộ nhớ theo thời gian (Lưu dạng Object: { id: timestamp })
-        let seenItemsMap = JSON.parse(localStorage.getItem('xianyuMemory6H')) || {};
-        updateMemoryCount();
-
-        function updateMemoryCount() {
-            let count = Object.keys(seenItemsMap).length;
-            document.getElementById('memoryCount').innerText = count;
-        }
-
-        function clearMemory() {
-            if(confirm("Xóa bộ nhớ Bot?")) {
-                seenItemsMap = {};
-                localStorage.setItem('xianyuMemory6H', JSON.stringify(seenItemsMap));
-                updateMemoryCount();
-                log("Đã reset bộ nhớ 6h!", "success");
-            }
-        }
 
         function toggleCurrency() {
             isVND = !isVND;
             const btn = document.getElementById('currencyBtn');
             btn.innerText = isVND ? "💱 VNĐ (ON)" : "💱 VNĐ (OFF)";
-            btn.className = isVND ? "text-[11px] bg-slate-800 text-amber-400 px-2.5 py-1.5 rounded-xl border border-slate-700 font-bold" : "text-[11px] bg-slate-800 text-slate-400 px-2.5 py-1.5 rounded-xl border border-slate-700";
+            btn.className = isVND ? "text-[11px] bg-slate-800 text-amber-400 px-3 py-1.5 rounded-xl border border-slate-700 font-bold" : "text-[11px] bg-slate-800 text-slate-400 px-3 py-1.5 rounded-xl border border-slate-700";
             if(window.lastItemsData) renderProducts(window.lastItemsData);
         }
 
+        // TỪ ĐIỂN TỐI ƯU HÓA: Bơm vitamin "Người thật"
         const dict = {
             "giày": "鞋", "nike": "Nike", "adidas": "Adidas", "new balance": "New Balance", 
             "nb": "NB", "mizuno": "美津浓", "asics": "亚瑟士", "yeezy": "椰子", 
             "onitsuka tiger": "鬼冢虎", "cũ": "二手", "2hand": "二手", "thanh lý": "个人闲置",
-            "chính hãng": "正品", "nam": "男", "nữ": "女"
+            "chính hãng": "正品", "nam": "男", "nữ": "女",
+            // Từ khóa ép người dùng thật
+            "xước nhẹ": "微瑕", "không hộp": "无盒", "poizon": "得物", "đắc vật": "得物入"
         };
 
         function autoTranslate() {
@@ -163,15 +133,20 @@
         function copyAppUrl(itemId) {
             let schemeUrl = `fleamarket://item?id=${itemId}`;
             navigator.clipboard.writeText(schemeUrl);
-            alert("Đã copy Link App! Hãy mở app Xianyu lên.");
+            alert("Đã copy Link App! Hãy mở app Xianyu.");
         }
 
+        // BLACKLIST CHUYÊN SÂU: Chém bay văn mẫu xưởng
         const BLACKLIST = [
-            "全码", "齐码", "多码", "断码", "情侣款", "鞋码齐全", "男女鞋", "各种码", "都有",
-            "全新", "代购", "专柜", "实体店", "清仓", "代理", "一件代发", "批发", 
+            // Size & Màu sắc (Dấu hiệu shop)
+            "全码", "齐码", "多码", "断码", "情侣款", "鞋码齐全", "男女鞋", "各种码", "都有", "男女同款", "男女", "多色", "颜色齐全",
+            // Hàng mới, Đại lý, Văn mẫu Xưởng
+            "现货", "全新", "代购", "专柜", "实体店", "清仓", "代理", "一件代发", "批发", "厂家直销", "微商", "店主", 
+            // Thuật ngữ Fake / Chợ đen
             "莆田", "纯原", "公司级", "高仿", "厂货", "尾单", "复刻", "定制", "假", 
             "顶级", "超a", "过验", "1:1", "原单", "原厂", "原盒", "支持验货", "放店", 
-            "微商", "店主", "进货渠道", "正品保真"
+            // Bịp bợm, spam
+            "进货渠道", "正品保真", "非偏远包邮"
         ];
 
         function log(message, type = 'info') {
@@ -230,7 +205,7 @@
                 else if (Array.isArray(result)) items = result;
 
                 if (items.length === 0) {
-                    log("Không tìm thấy kết quả.", "warn");
+                    log("Không tìm thấy kết quả. (Có thể do trang này toàn rác đã bị lọc hết)", "warn");
                     startBtn.disabled = false;
                     startBtn.classList.remove('opacity-50');
                     return;
@@ -251,44 +226,30 @@
             productGrid.innerHTML = "";
             const minPrice = parseFloat(document.getElementById('minPrice').value) || 0;
             const maxPrice = parseFloat(document.getElementById('maxPrice').value) || 999999;
-            const isOnlyNew = document.getElementById('onlyNewToggle').checked;
 
-            let validCount = 0, fakeCount = 0, oldSkipCount = 0;
-            let now = Date.now();
-            let sixHoursMs = 6 * 60 * 60 * 1000; // 6 tiếng tính bằng mili-giây
+            let validCount = 0, fakeCount = 0;
+            let blockReasons = {};
 
             items.forEach(item => {
                 const title = item.title || item.desc || "";
                 const priceRMB = parseFloat(item.price || 0);
                 const itemId = item.item_id || item.id || ""; 
-                if(!itemId) return;
 
-                // Kiểm tra thời gian trong bộ nhớ 6h
-                let lastSeenTime = seenItemsMap[itemId];
-                let isNewDeal = true;
-
-                if (lastSeenTime) {
-                    // Nếu đã thấy trước đó và chưa quá 6 tiếng thì tính là deal cũ
-                    if ((now - lastSeenTime) < sixHoursMs) {
-                        isNewDeal = false;
-                    }
-                }
-
-                if (isOnlyNew && !isNewDeal) { 
-                    oldSkipCount++; 
+                // 1. Lọc rác & Văn mẫu
+                const blockedWord = checkBlacklist(title);
+                if (blockedWord) { 
+                    fakeCount++; 
+                    blockReasons[blockedWord] = (blockReasons[blockedWord] || 0) + 1;
                     return; 
                 }
 
-                if (checkBlacklist(title)) { fakeCount++; return; }
+                // 2. Lọc khung giá
                 if (priceRMB < minPrice || priceRMB > maxPrice) return;
 
                 validCount++;
-                
-                // Cập nhật mốc thời gian mới nhất cho item này
-                seenItemsMap[itemId] = now;
 
                 const imgUrl = item.pic_url || item.pic || item.imageUrl || "https://placehold.co/400x400/1e293b/white?text=No+Image";
-                const webUrl = item.detail_url || item.item_url || `https://2.taobao.com/item.htm?id=${itemId}`;
+                const webUrl = item.detail_url || item.item_url || (itemId ? `https://2.taobao.com/item.htm?id=${itemId}` : "#");
 
                 let displayPriceText = `¥${priceRMB}`;
                 if (isVND) {
@@ -299,7 +260,6 @@
                 const card = document.createElement('div');
                 card.className = "bg-slate-900 border border-slate-800 rounded-xl overflow-hidden flex flex-col justify-between shadow relative";
                 card.innerHTML = `
-                    ${isNewDeal ? '<div class="absolute top-1.5 right-1.5 z-10 bg-rose-600 text-white text-[8px] font-black px-1.5 py-0.5 rounded-full shadow animate-pulse">🔥 MỚI</div>' : ''}
                     <div>
                         <div class="relative w-full aspect-square bg-slate-950 overflow-hidden">
                             <img src="${imgUrl}" alt="Sneaker" class="w-full h-full object-cover" onclick="openImage('${imgUrl}')">
@@ -322,18 +282,17 @@
                 productGrid.appendChild(card);
             });
 
-            // Dọn dẹp bộ nhớ: Tự động xóa các ID đã quá hạn 6 tiếng để bộ nhớ không bị phình to
-            for (let id in seenItemsMap) {
-                if ((now - seenItemsMap[id]) > sixHoursMs) {
-                    delete seenItemsMap[id];
-                }
-            }
-
-            localStorage.setItem('xianyuMemory6H', JSON.stringify(seenItemsMap));
-            updateMemoryCount();
-
             document.getElementById('countText').innerText = validCount;
-            log(`Lọc xong: Chặn ${fakeCount} rác | Ẩn ${oldSkipCount} cũ | Hiện ${validCount} deal!`, "success");
+            
+            log(`Quét thành công! Chặn ${fakeCount} bài đăng dính văn mẫu xưởng.`, "success");
+            
+            // Log lý do chặn cụ thể để bạn kiểm soát
+            let reasonString = Object.entries(blockReasons)
+                    .map(([word, count]) => `${word}: ${count}`)
+                    .join(' | ');
+            if (fakeCount > 0) {
+                log(`🔍 Từ lóng đã chặn: [ ${reasonString} ]`, "warn");
+            }
 
             const startBtn = document.getElementById('startBtn');
             startBtn.disabled = false;
