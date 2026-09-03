@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Xianyu Sneaker Hunter iOS Pro</title>
+    <title>Xianyu Sneaker Hunter iOS 6H</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         #logBox::-webkit-scrollbar { width: 3px; }
@@ -19,9 +19,9 @@
             <div class="flex items-center justify-between">
                 <div>
                     <h1 class="text-lg font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500">
-                        ⚡ XIANYU iOS HUNTER
+                        ⚡ XIANYU iOS HUNTER (6H)
                     </h1>
-                    <p class="text-[11px] text-slate-400">Tự động dịch Trung • 1¥ = 4,500đ • Chặn Full Size</p>
+                    <p class="text-[11px] text-slate-400">Tự động dịch Trung • 1¥ = 4,500đ • Giới hạn làm mới 6h</p>
                 </div>
                 <div class="flex items-center gap-1.5">
                     <button onclick="toggleCurrency()" id="currencyBtn" class="text-[11px] bg-slate-800 text-amber-400 px-2.5 py-1.5 rounded-xl border border-slate-700 font-bold">
@@ -69,7 +69,7 @@
             <div class="space-y-2 pt-1">
                 <label class="flex items-center justify-center space-x-2 bg-slate-950 border border-slate-700 py-2 rounded-xl cursor-pointer">
                     <input type="checkbox" id="onlyNewToggle" checked class="w-3.5 h-3.5 text-amber-500 rounded bg-slate-800 border-slate-600">
-                    <span class="text-[11px] text-amber-400 font-bold">Chỉ Hiện Bài Mới (Bot Monitor)</span>
+                    <span class="text-[11px] text-amber-400 font-bold">Chỉ Hiện Bài Mới (Cửa sổ 6 Tiếng)</span>
                 </label>
                 <button id="startBtn" onclick="startScan()" class="w-full bg-gradient-to-r from-amber-500 to-orange-600 text-slate-950 font-extrabold py-2.5 rounded-xl text-sm shadow-lg active:scale-95 transition">
                     🔍 Quét Deal Xianyu
@@ -80,7 +80,7 @@
         <!-- Terminal Log -->
         <div class="bg-slate-900 border border-slate-800 rounded-xl p-2.5 shadow-md">
             <div id="logBox" class="h-20 overflow-y-auto text-[11px] font-mono space-y-1 text-slate-300">
-                <div class="text-slate-500">[iOS Ready] Nhập từ khóa để bắt đầu...</div>
+                <div class="text-slate-500">[iOS 6H Ready] Sẵn sàng săn deal...</div>
             </div>
         </div>
 
@@ -88,7 +88,7 @@
         <div>
             <div class="flex items-center justify-between mb-2 px-1">
                 <h2 class="text-xs font-bold text-slate-300 uppercase tracking-wider">Kết Quả (<span id="countText">0</span>)</h2>
-                <span class="text-[10px] text-slate-400">Bộ nhớ: <span id="memoryCount" class="text-amber-400 font-bold">0</span></span>
+                <span class="text-[10px] text-slate-400">Bộ nhớ 6h: <span id="memoryCount" class="text-amber-400 font-bold">0</span></span>
             </div>
             <div id="productGrid" class="grid grid-cols-2 gap-2"></div>
         </div>
@@ -108,15 +108,22 @@
         const API_URL = "https://xianyu-2taobao-goofish-api.p.rapidapi.com/xianyu/search/v1";
 
         let isVND = true;
-        let seenItems = JSON.parse(localStorage.getItem('xianyuMemoryIOS')) || [];
-        document.getElementById('memoryCount').innerText = seenItems.length;
+        
+        // Quản lý bộ nhớ theo thời gian (Lưu dạng Object: { id: timestamp })
+        let seenItemsMap = JSON.parse(localStorage.getItem('xianyuMemory6H')) || {};
+        updateMemoryCount();
+
+        function updateMemoryCount() {
+            let count = Object.keys(seenItemsMap).length;
+            document.getElementById('memoryCount').innerText = count;
+        }
 
         function clearMemory() {
             if(confirm("Xóa bộ nhớ Bot?")) {
-                seenItems = [];
-                localStorage.setItem('xianyuMemoryIOS', JSON.stringify(seenItems));
-                document.getElementById('memoryCount').innerText = 0;
-                log("Đã reset bộ nhớ!", "success");
+                seenItemsMap = {};
+                localStorage.setItem('xianyuMemory6H', JSON.stringify(seenItemsMap));
+                updateMemoryCount();
+                log("Đã reset bộ nhớ 6h!", "success");
             }
         }
 
@@ -156,7 +163,7 @@
         function copyAppUrl(itemId) {
             let schemeUrl = `fleamarket://item?id=${itemId}`;
             navigator.clipboard.writeText(schemeUrl);
-            alert("Đã copy Link App! Hãy mở app Xianyu lên, ứng dụng sẽ tự động nhận diện sản phẩm.");
+            alert("Đã copy Link App! Hãy mở app Xianyu lên.");
         }
 
         const BLACKLIST = [
@@ -247,23 +254,41 @@
             const isOnlyNew = document.getElementById('onlyNewToggle').checked;
 
             let validCount = 0, fakeCount = 0, oldSkipCount = 0;
-            let newItemsFound = [];
+            let now = Date.now();
+            let sixHoursMs = 6 * 60 * 60 * 1000; // 6 tiếng tính bằng mili-giây
 
             items.forEach(item => {
                 const title = item.title || item.desc || "";
                 const priceRMB = parseFloat(item.price || 0);
                 const itemId = item.item_id || item.id || ""; 
+                if(!itemId) return;
 
-                const isNewDeal = !seenItems.includes(itemId);
-                if (isOnlyNew && !isNewDeal) { oldSkipCount++; return; }
+                // Kiểm tra thời gian trong bộ nhớ 6h
+                let lastSeenTime = seenItemsMap[itemId];
+                let isNewDeal = true;
+
+                if (lastSeenTime) {
+                    // Nếu đã thấy trước đó và chưa quá 6 tiếng thì tính là deal cũ
+                    if ((now - lastSeenTime) < sixHoursMs) {
+                        isNewDeal = false;
+                    }
+                }
+
+                if (isOnlyNew && !isNewDeal) { 
+                    oldSkipCount++; 
+                    return; 
+                }
+
                 if (checkBlacklist(title)) { fakeCount++; return; }
                 if (priceRMB < minPrice || priceRMB > maxPrice) return;
 
                 validCount++;
-                if (isNewDeal) newItemsFound.push(itemId);
+                
+                // Cập nhật mốc thời gian mới nhất cho item này
+                seenItemsMap[itemId] = now;
 
                 const imgUrl = item.pic_url || item.pic || item.imageUrl || "https://placehold.co/400x400/1e293b/white?text=No+Image";
-                const webUrl = item.detail_url || item.item_url || (itemId ? `https://2.taobao.com/item.htm?id=${itemId}` : "#");
+                const webUrl = item.detail_url || item.item_url || `https://2.taobao.com/item.htm?id=${itemId}`;
 
                 let displayPriceText = `¥${priceRMB}`;
                 if (isVND) {
@@ -297,14 +322,18 @@
                 productGrid.appendChild(card);
             });
 
-            if (newItemsFound.length > 0) {
-                seenItems = [...newItemsFound, ...seenItems].slice(0, 2000);
-                localStorage.setItem('xianyuMemoryIOS', JSON.stringify(seenItems));
-                document.getElementById('memoryCount').innerText = seenItems.length;
+            // Dọn dẹp bộ nhớ: Tự động xóa các ID đã quá hạn 6 tiếng để bộ nhớ không bị phình to
+            for (let id in seenItemsMap) {
+                if ((now - seenItemsMap[id]) > sixHoursMs) {
+                    delete seenItemsMap[id];
+                }
             }
 
+            localStorage.setItem('xianyuMemory6H', JSON.stringify(seenItemsMap));
+            updateMemoryCount();
+
             document.getElementById('countText').innerText = validCount;
-            log(`Lọc xong: Chặn ${fakeCount} rác | Hiện ${validCount} deal!`, "success");
+            log(`Lọc xong: Chặn ${fakeCount} rác | Ẩn ${oldSkipCount} cũ | Hiện ${validCount} deal!`, "success");
 
             const startBtn = document.getElementById('startBtn');
             startBtn.disabled = false;
