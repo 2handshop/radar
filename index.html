@@ -3,19 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Xianyu Sneaker Hunter iOS</title>
+    <title>Xianyu Sneaker Hunter iOS Pro</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         #logBox::-webkit-scrollbar { width: 3px; }
         #logBox::-webkit-scrollbar-thumb { background-color: #334155; border-radius: 4px; }
-        /* Tối ưu chống tràn màn hình trên iOS Safari */
         body { -webkit-text-size-adjust: 100%; }
     </style>
 </head>
 <body class="bg-slate-950 text-slate-100 font-sans min-h-screen p-3">
 
     <div class="max-w-7xl mx-auto space-y-3">
-        <!-- Control Panel cho Mobile -->
+        <!-- Control Panel -->
         <div class="bg-slate-900 border border-slate-800 p-3.5 rounded-2xl shadow-xl space-y-3">
             <div class="flex items-center justify-between">
                 <div>
@@ -154,6 +153,12 @@
             alert("Đã copy: " + copyText.value);
         }
 
+        function copyAppUrl(itemId) {
+            let schemeUrl = `fleamarket://item?id=${itemId}`;
+            navigator.clipboard.writeText(schemeUrl);
+            alert("Đã copy Link App! Hãy mở app Xianyu lên, ứng dụng sẽ tự động nhận diện sản phẩm.");
+        }
+
         const BLACKLIST = [
             "全码", "齐码", "多码", "断码", "情侣款", "鞋码齐全", "男女鞋", "各种码", "都有",
             "全新", "代购", "专柜", "实体店", "清仓", "代理", "一件代发", "批发", 
@@ -247,7 +252,7 @@
             items.forEach(item => {
                 const title = item.title || item.desc || "";
                 const priceRMB = parseFloat(item.price || 0);
-                const itemId = item.item_id || item.id || title; 
+                const itemId = item.item_id || item.id || ""; 
 
                 const isNewDeal = !seenItems.includes(itemId);
                 if (isOnlyNew && !isNewDeal) { oldSkipCount++; return; }
@@ -258,10 +263,7 @@
                 if (isNewDeal) newItemsFound.push(itemId);
 
                 const imgUrl = item.pic_url || item.pic || item.imageUrl || "https://placehold.co/400x400/1e293b/white?text=No+Image";
-                
-                // CƠ CHẾ IOS DEEP LINK: Bấm vào sẽ văng thẳng app Xianyu trên iOS
-                let cleanId = item.item_id || item.id || "";
-                let itemUrl = cleanId ? `fleamarket://item?id=${cleanId}` : (item.detail_url || item.item_url || "#");
+                const webUrl = item.detail_url || item.item_url || (itemId ? `https://2.taobao.com/item.htm?id=${itemId}` : "#");
 
                 let displayPriceText = `¥${priceRMB}`;
                 if (isVND) {
@@ -281,9 +283,15 @@
                             <h3 class="text-[11px] text-slate-200 line-clamp-2 leading-tight font-medium" title="${title}">${title}</h3>
                         </div>
                     </div>
-                    <div class="p-2 pt-1 border-t border-slate-800 flex items-center justify-between">
-                        <span class="text-xs font-black text-amber-400 font-mono">${displayPriceText}</span>
-                        <a href="${itemUrl}" class="bg-amber-400 text-slate-950 text-[10px] font-bold px-2 py-1 rounded-lg active:scale-95">Mở App ➜</a>
+                    <div class="p-2 pt-1 border-t border-slate-800 space-y-1.5">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-black text-amber-400 font-mono">${displayPriceText}</span>
+                            <a href="${webUrl}" target="_blank" class="text-[10px] text-slate-400 underline">Web ↗</a>
+                        </div>
+                        <div class="grid grid-cols-2 gap-1">
+                            <a href="fleamarket://item?id=${itemId}" class="bg-amber-400 hover:bg-amber-300 text-slate-950 text-[10px] font-bold py-1 rounded text-center active:scale-95">Mở App</a>
+                            <button onclick="copyAppUrl('${itemId}')" class="bg-slate-800 hover:bg-slate-700 text-amber-400 text-[10px] font-bold py-1 rounded text-center active:scale-95">📋 Copy Link</button>
+                        </div>
                     </div>
                 `;
                 productGrid.appendChild(card);
