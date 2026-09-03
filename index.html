@@ -2,108 +2,104 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xianyu Sneaker Hunter Pro Mobile</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Xianyu Sneaker Hunter iOS</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        #logBox::-webkit-scrollbar { width: 4px; }
+        #logBox::-webkit-scrollbar { width: 3px; }
         #logBox::-webkit-scrollbar-thumb { background-color: #334155; border-radius: 4px; }
+        /* Tối ưu chống tràn màn hình trên iOS Safari */
+        body { -webkit-text-size-adjust: 100%; }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-100 font-sans min-h-screen p-3 md:p-6">
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen p-3">
 
-    <div class="max-w-7xl mx-auto space-y-4">
-        <!-- Control Panel -->
-        <div class="bg-slate-900 border border-slate-800 p-4 md:p-6 rounded-2xl shadow-xl space-y-4">
-            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+    <div class="max-w-7xl mx-auto space-y-3">
+        <!-- Control Panel cho Mobile -->
+        <div class="bg-slate-900 border border-slate-800 p-3.5 rounded-2xl shadow-xl space-y-3">
+            <div class="flex items-center justify-between">
                 <div>
-                    <h1 class="text-xl md:text-2xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500">
-                        ⚡ XIANYU SNEAKER HUNTER
+                    <h1 class="text-lg font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500">
+                        ⚡ XIANYU iOS HUNTER
                     </h1>
-                    <p class="text-xs text-slate-400">Tự động dịch từ khóa sang tiếng Trung • Quy đổi 1¥ = 4,500đ</p>
+                    <p class="text-[11px] text-slate-400">Tự động dịch Trung • 1¥ = 4,500đ • Chặn Full Size</p>
                 </div>
-                <div class="flex items-center gap-2 w-full sm:w-auto justify-between sm:justify-end">
-                    <!-- Nút Bật/Tắt Tiền VNĐ -->
-                    <button onclick="toggleCurrency()" id="currencyBtn" class="text-xs bg-slate-800 hover:bg-slate-700 text-amber-400 px-3 py-1.5 rounded-xl border border-slate-700 font-bold transition">
-                        💱 Đổi sang VNĐ (ON)
+                <div class="flex items-center gap-1.5">
+                    <button onclick="toggleCurrency()" id="currencyBtn" class="text-[11px] bg-slate-800 text-amber-400 px-2.5 py-1.5 rounded-xl border border-slate-700 font-bold">
+                        💱 VNĐ (ON)
                     </button>
-                    <button onclick="clearMemory()" class="text-xs bg-rose-950/60 hover:bg-rose-900 text-rose-300 px-3 py-1.5 rounded-xl border border-rose-800/50 transition">
-                        🗑️ Xóa Bot
+                    <button onclick="clearMemory()" class="text-[11px] bg-rose-950/80 text-rose-300 px-2 py-1.5 rounded-xl border border-rose-800/50">
+                        🗑️ Bot
                     </button>
                 </div>
             </div>
 
-            <!-- Bộ lọc tìm kiếm & Khung Copy Từ Khóa Trung -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3 items-end">
-                <div class="lg:col-span-2">
-                    <label class="block text-xs font-semibold text-slate-300 mb-1">Nhập tiếng Việt (Ví dụ: Giày Nike 2hand)</label>
-                    <div class="flex gap-2">
-                        <input type="text" id="keywordInput" oninput="autoTranslate()" class="w-full bg-slate-950 border border-slate-700 px-3 py-2 rounded-xl text-sm text-white focus:ring-2 focus:ring-amber-500 outline-none transition" placeholder="Nhập từ khóa...">
-                    </div>
-                </div>
-
-                <!-- Ô hiển thị tiếng Trung dịch tự động + Nút Copy -->
-                <div class="lg:col-span-2">
-                    <label class="block text-xs font-semibold text-amber-400 mb-1">Tiếng Trung (Copy dán vào app Xianyu nếu cần)</label>
-                    <div class="flex gap-1.5">
-                        <input type="text" id="translatedInput" readonly class="w-full bg-slate-950 border border-amber-500/50 px-3 py-2 rounded-xl text-sm text-amber-300 outline-none font-mono" placeholder="Tự động dịch...">
-                        <button onclick="copyTranslated()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 px-3 py-2 rounded-xl text-xs font-bold transition whitespace-nowrap active:scale-95">
-                            📋 Copy
-                        </button>
-                    </div>
+            <!-- Ô nhập tiếng Việt & Dịch tiếng Trung -->
+            <div class="space-y-2">
+                <div>
+                    <label class="block text-[11px] font-semibold text-slate-300 mb-1">Nhập tiếng Việt (Ví dụ: Giày Nike 2hand)</label>
+                    <input type="text" id="keywordInput" oninput="autoTranslate()" class="w-full bg-slate-950 border border-slate-700 px-3 py-2 rounded-xl text-sm text-white focus:ring-2 focus:ring-amber-500 outline-none" placeholder="Nhập từ khóa...">
                 </div>
 
                 <div>
-                    <label class="block text-xs font-semibold text-slate-300 mb-1">Giá thấp nhất (¥)</label>
-                    <input type="number" id="minPrice" class="w-full bg-slate-950 border border-slate-700 px-3 py-2 rounded-xl text-sm text-white focus:ring-2 focus:ring-amber-500 outline-none transition" value="80">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-300 mb-1">Giá cao nhất (¥)</label>
-                    <input type="number" id="maxPrice" class="w-full bg-slate-950 border border-slate-700 px-3 py-2 rounded-xl text-sm text-white focus:ring-2 focus:ring-amber-500 outline-none transition" value="650">
+                    <div class="flex justify-between items-center mb-1">
+                        <label class="text-[11px] font-semibold text-amber-400">Tiếng Trung (Tự động dịch)</label>
+                        <button onclick="copyTranslated()" class="text-[10px] text-amber-300 bg-amber-500/20 px-2 py-0.5 rounded border border-amber-500/30">📋 Copy</button>
+                    </div>
+                    <input type="text" id="translatedInput" readonly class="w-full bg-slate-950 border border-amber-500/40 px-3 py-2 rounded-xl text-xs text-amber-300 font-mono outline-none" placeholder="Chờ nhập...">
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 border-t border-slate-800/80 items-center">
+            <!-- Bộ lọc giá & trang -->
+            <div class="grid grid-cols-3 gap-2">
                 <div>
-                    <label class="block text-xs font-semibold text-slate-300 mb-1">Trang quét (Page)</label>
-                    <input type="number" id="pageNumber" min="1" class="w-full bg-slate-950 border border-slate-700 px-3 py-2 rounded-xl text-sm text-white focus:ring-2 focus:ring-amber-500 outline-none transition" value="1">
+                    <label class="block text-[10px] text-slate-400 mb-1">Giá Min (¥)</label>
+                    <input type="number" id="minPrice" class="w-full bg-slate-950 border border-slate-700 px-2 py-1.5 rounded-xl text-xs text-white text-center outline-none" value="80">
                 </div>
                 <div>
-                    <label class="flex items-center space-x-2 bg-slate-950 border border-slate-700 px-3 py-2 rounded-xl cursor-pointer hover:border-amber-500 transition mt-5 sm:mt-0">
-                        <input type="checkbox" id="onlyNewToggle" checked class="w-4 h-4 text-amber-500 rounded focus:ring-amber-500 bg-slate-800 border-slate-600">
-                        <span class="text-xs text-amber-400 font-bold">Chỉ Hiện Bài Mới (Bot Monitor)</span>
-                    </label>
+                    <label class="block text-[10px] text-slate-400 mb-1">Giá Max (¥)</label>
+                    <input type="number" id="maxPrice" class="w-full bg-slate-950 border border-slate-700 px-2 py-1.5 rounded-xl text-xs text-white text-center outline-none" value="650">
                 </div>
                 <div>
-                    <button id="startBtn" onclick="startScan()" class="w-full bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-slate-950 font-extrabold py-2.5 px-4 rounded-xl text-sm transition shadow-lg active:scale-[0.98]">
-                        🔍 Quét Deal Xianyu
-                    </button>
+                    <label class="block text-[10px] text-slate-400 mb-1">Trang (Page)</label>
+                    <input type="number" id="pageNumber" min="1" class="w-full bg-slate-950 border border-slate-700 px-2 py-1.5 rounded-xl text-xs text-white text-center outline-none" value="1">
                 </div>
+            </div>
+
+            <!-- Nút quét & Bot toggle -->
+            <div class="space-y-2 pt-1">
+                <label class="flex items-center justify-center space-x-2 bg-slate-950 border border-slate-700 py-2 rounded-xl cursor-pointer">
+                    <input type="checkbox" id="onlyNewToggle" checked class="w-3.5 h-3.5 text-amber-500 rounded bg-slate-800 border-slate-600">
+                    <span class="text-[11px] text-amber-400 font-bold">Chỉ Hiện Bài Mới (Bot Monitor)</span>
+                </label>
+                <button id="startBtn" onclick="startScan()" class="w-full bg-gradient-to-r from-amber-500 to-orange-600 text-slate-950 font-extrabold py-2.5 rounded-xl text-sm shadow-lg active:scale-95 transition">
+                    🔍 Quét Deal Xianyu
+                </button>
             </div>
         </div>
 
-        <!-- Terminal -->
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-3 md:p-4 shadow-lg">
-            <div id="logBox" class="h-28 overflow-y-auto text-xs font-mono space-y-1 text-slate-300">
-                <div class="text-slate-500">[Hệ thống] Nhập tiếng Việt bất kỳ, hệ thống tự dịch sang tiếng Trung để quét...</div>
+        <!-- Terminal Log -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-2.5 shadow-md">
+            <div id="logBox" class="h-20 overflow-y-auto text-[11px] font-mono space-y-1 text-slate-300">
+                <div class="text-slate-500">[iOS Ready] Nhập từ khóa để bắt đầu...</div>
             </div>
         </div>
 
         <!-- Lưới kết quả -->
         <div>
-            <div class="flex items-center justify-between mb-3 px-1">
-                <h2 class="text-base md:text-lg font-bold text-slate-200">Deal Săn Được (<span id="countText">0</span>)</h2>
-                <span class="text-[11px] text-slate-400">Bộ nhớ Bot: <span id="memoryCount" class="text-amber-400 font-bold">0</span></span>
+            <div class="flex items-center justify-between mb-2 px-1">
+                <h2 class="text-xs font-bold text-slate-300 uppercase tracking-wider">Kết Quả (<span id="countText">0</span>)</h2>
+                <span class="text-[10px] text-slate-400">Bộ nhớ: <span id="memoryCount" class="text-amber-400 font-bold">0</span></span>
             </div>
-            <div id="productGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3"></div>
+            <div id="productGrid" class="grid grid-cols-2 gap-2"></div>
         </div>
     </div>
 
     <!-- Modal Xem Ảnh -->
-    <div id="imageModal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm hidden flex items-center justify-center p-4">
-        <div class="relative max-w-4xl max-h-[90vh] w-full flex flex-col items-center">
-            <button onclick="closeModal()" class="absolute -top-10 right-0 text-slate-300 hover:text-white text-xl font-bold bg-slate-800/80 px-3 py-1 rounded-full">✕</button>
-            <img id="modalImg" src="" alt="Zoom ảnh giày" class="max-w-full max-h-[80vh] object-contain rounded-lg border border-slate-700 shadow-2xl">
+    <div id="imageModal" class="fixed inset-0 z-50 bg-black/95 backdrop-blur-sm hidden flex items-center justify-center p-3">
+        <div class="relative max-w-full w-full flex flex-col items-center">
+            <button onclick="closeModal()" class="absolute -top-12 right-0 text-white text-lg font-bold bg-slate-800 px-3 py-1 rounded-full">✕ Đóng</button>
+            <img id="modalImg" src="" alt="Zoom ảnh" class="max-w-full max-h-[75vh] object-contain rounded-lg border border-slate-700">
         </div>
     </div>
 
@@ -112,52 +108,38 @@
         const API_HOST = "xianyu-2taobao-goofish-api.p.rapidapi.com";
         const API_URL = "https://xianyu-2taobao-goofish-api.p.rapidapi.com/xianyu/search/v1";
 
-        let isVND = true; // Mặc định hiển thị VNĐ
-
-        // Bộ nhớ Bot
-        let seenItems = JSON.parse(localStorage.getItem('xianyuMemory')) || [];
+        let isVND = true;
+        let seenItems = JSON.parse(localStorage.getItem('xianyuMemoryIOS')) || [];
         document.getElementById('memoryCount').innerText = seenItems.length;
 
         function clearMemory() {
             if(confirm("Xóa bộ nhớ Bot?")) {
                 seenItems = [];
-                localStorage.setItem('xianyuMemory', JSON.stringify(seenItems));
+                localStorage.setItem('xianyuMemoryIOS', JSON.stringify(seenItems));
                 document.getElementById('memoryCount').innerText = 0;
-                log("Đã reset bộ nhớ Bot!", "success");
+                log("Đã reset bộ nhớ!", "success");
             }
         }
 
         function toggleCurrency() {
             isVND = !isVND;
             const btn = document.getElementById('currencyBtn');
-            btn.innerText = isVND ? "💱 Đổi sang VNĐ (ON)" : "💱 Đổi sang VNĐ (OFF)";
-            btn.className = isVND 
-                ? "text-xs bg-slate-800 hover:bg-slate-700 text-amber-400 px-3 py-1.5 rounded-xl border border-slate-700 font-bold transition" 
-                : "text-xs bg-slate-800 hover:bg-slate-700 text-slate-400 px-3 py-1.5 rounded-xl border border-slate-700 transition";
-            
-            // Render lại giá nếu đang có kết quả trên màn hình
-            if(window.lastItemsData) {
-                renderProducts(window.lastItemsData);
-            }
+            btn.innerText = isVND ? "💱 VNĐ (ON)" : "💱 VNĐ (OFF)";
+            btn.className = isVND ? "text-[11px] bg-slate-800 text-amber-400 px-2.5 py-1.5 rounded-xl border border-slate-700 font-bold" : "text-[11px] bg-slate-800 text-slate-400 px-2.5 py-1.5 rounded-xl border border-slate-700";
+            if(window.lastItemsData) renderProducts(window.lastItemsData);
         }
 
-        // Từ điển từ khóa thông minh (Việt -> Trung Giản Thể tối ưu săn giày 2hand)
         const dict = {
             "giày": "鞋", "nike": "Nike", "adidas": "Adidas", "new balance": "New Balance", 
             "nb": "NB", "mizuno": "美津浓", "asics": "亚瑟士", "yeezy": "椰子", 
             "onitsuka tiger": "鬼冢虎", "cũ": "二手", "2hand": "二手", "thanh lý": "个人闲置",
-            "chính hãng": "正品", "nam": "男", "nữ": "女", "đỏ": "红", "trắng": "白", "đen": "黑"
+            "chính hãng": "正品", "nam": "男", "nữ": "女"
         };
 
         function autoTranslate() {
             let input = document.getElementById('keywordInput').value.toLowerCase().trim();
-            if(!input) {
-                document.getElementById('translatedInput').value = "";
-                return;
-            }
-            
+            if(!input) { document.getElementById('translatedInput').value = ""; return; }
             let translated = input;
-            // Thay thế các từ khóa tiếng Việt có trong từ điển sang Trung/Anh chuẩn
             for (let [vi, cn] of Object.entries(dict)) {
                 let regex = new RegExp(vi, 'gi');
                 translated = translated.replace(regex, cn);
@@ -167,10 +149,9 @@
 
         function copyTranslated() {
             const copyText = document.getElementById('translatedInput');
-            if(!copyText.value) return alert("Chưa có chữ để copy!");
-            copyText.select();
+            if(!copyText.value) return alert("Chưa có chữ!");
             navigator.clipboard.writeText(copyText.value);
-            alert("Đã copy từ khóa tiếng Trung: " + copyText.value);
+            alert("Đã copy: " + copyText.value);
         }
 
         const BLACKLIST = [
@@ -197,24 +178,20 @@
         function openImage(url) { modalImg.src = url; imageModal.classList.remove('hidden'); }
         function closeModal() { imageModal.classList.add('hidden'); modalImg.src = ""; }
         imageModal.onclick = (e) => { if (e.target === imageModal) closeModal(); };
-        document.addEventListener('keydown', (e) => { if (e.key === "Escape") closeModal(); });
 
         function checkBlacklist(text) {
             if (!text) return null;
-            for (let word of BLACKLIST) {
-                if (text.includes(word)) return word; 
-            }
+            for (let word of BLACKLIST) { if (text.includes(word)) return word; }
             return null;
         }
 
         async function startScan() {
-            // Lấy từ khóa tiếng Trung đã dịch tự động
             const keyword = document.getElementById('translatedInput').value.trim() || document.getElementById('keywordInput').value.trim();
             const minPrice = parseFloat(document.getElementById('minPrice').value) || 0;
             const maxPrice = parseFloat(document.getElementById('maxPrice').value) || 999999;
             const page = parseInt(document.getElementById('pageNumber').value) || 1;
 
-            if (!keyword) return log("Vui lòng nhập từ khóa cần tìm!", "error");
+            if (!keyword) return log("Vui lòng nhập từ khóa!", "error");
 
             const startBtn = document.getElementById('startBtn');
             startBtn.disabled = true;
@@ -222,7 +199,7 @@
             document.getElementById('productGrid').innerHTML = "";
             document.getElementById('countText').innerText = "0";
 
-            log(`Đang quét với từ khóa Trung: "${keyword}" | Trang: ${page}`, "warn");
+            log(`Đang quét: "${keyword}" | Trang ${page}`, "warn");
 
             try {
                 const url = `${API_URL}?keyword=${encodeURIComponent(keyword)}&page=${page}`;
@@ -247,11 +224,11 @@
                     return;
                 }
 
-                window.lastItemsData = items; // Lưu lại để đổi tiền tệ nhanh
+                window.lastItemsData = items;
                 renderProducts(items);
 
             } catch (err) {
-                log(`Lỗi thực thi: ${err.message}`, "error");
+                log(`Lỗi: ${err.message}`, "error");
                 startBtn.disabled = false;
                 startBtn.classList.remove('opacity-50');
             }
@@ -281,9 +258,11 @@
                 if (isNewDeal) newItemsFound.push(itemId);
 
                 const imgUrl = item.pic_url || item.pic || item.imageUrl || "https://placehold.co/400x400/1e293b/white?text=No+Image";
-                const itemUrl = item.detail_url || item.item_url || (item.item_id ? `https://2.taobao.com/item.htm?id=${item.item_id}` : "#");
+                
+                // CƠ CHẾ IOS DEEP LINK: Bấm vào sẽ văng thẳng app Xianyu trên iOS
+                let cleanId = item.item_id || item.id || "";
+                let itemUrl = cleanId ? `fleamarket://item?id=${cleanId}` : (item.detail_url || item.item_url || "#");
 
-                // Quy đổi tiền tệ: 1 tệ = 4500 VNĐ
                 let displayPriceText = `¥${priceRMB}`;
                 if (isVND) {
                     let priceVND = priceRMB * 4500;
@@ -291,18 +270,20 @@
                 }
 
                 const card = document.createElement('div');
-                card.className = "bg-slate-900 border border-slate-800 rounded-xl overflow-hidden hover:border-slate-700 transition duration-200 flex flex-col group relative shadow-md";
+                card.className = "bg-slate-900 border border-slate-800 rounded-xl overflow-hidden flex flex-col justify-between shadow relative";
                 card.innerHTML = `
-                    ${isNewDeal ? '<div class="absolute top-2 right-2 z-10 bg-rose-600 text-white text-[9px] font-black px-2 py-0.5 rounded-full shadow-lg animate-pulse">🔥 MỚI</div>' : ''}
-                    <div class="relative w-full aspect-square bg-slate-950 overflow-hidden cursor-pointer">
-                        <img src="${imgUrl}" alt="Sneaker" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" onclick="openImage('${imgUrl}')">
-                    </div>
-                    <div class="p-2.5 md:p-3 flex flex-col flex-grow justify-between">
-                        <div><h3 class="text-xs text-slate-200 line-clamp-2 leading-tight font-medium" title="${title}">${title}</h3></div>
-                        <div class="mt-2.5 pt-2 border-t border-slate-800 flex items-center justify-between">
-                            <div><span class="text-sm md:text-base font-black text-amber-400 font-mono">${displayPriceText}</span></div>
-                            <a href="${itemUrl}" target="_blank" class="bg-amber-400 hover:bg-amber-300 text-slate-950 text-[11px] font-bold px-2.5 py-1.5 rounded-lg transition active:scale-95">Mở App ➜</a>
+                    ${isNewDeal ? '<div class="absolute top-1.5 right-1.5 z-10 bg-rose-600 text-white text-[8px] font-black px-1.5 py-0.5 rounded-full shadow animate-pulse">🔥 MỚI</div>' : ''}
+                    <div>
+                        <div class="relative w-full aspect-square bg-slate-950 overflow-hidden">
+                            <img src="${imgUrl}" alt="Sneaker" class="w-full h-full object-cover" onclick="openImage('${imgUrl}')">
                         </div>
+                        <div class="p-2">
+                            <h3 class="text-[11px] text-slate-200 line-clamp-2 leading-tight font-medium" title="${title}">${title}</h3>
+                        </div>
+                    </div>
+                    <div class="p-2 pt-1 border-t border-slate-800 flex items-center justify-between">
+                        <span class="text-xs font-black text-amber-400 font-mono">${displayPriceText}</span>
+                        <a href="${itemUrl}" class="bg-amber-400 text-slate-950 text-[10px] font-bold px-2 py-1 rounded-lg active:scale-95">Mở App ➜</a>
                     </div>
                 `;
                 productGrid.appendChild(card);
@@ -310,12 +291,12 @@
 
             if (newItemsFound.length > 0) {
                 seenItems = [...newItemsFound, ...seenItems].slice(0, 2000);
-                localStorage.setItem('xianyuMemory', JSON.stringify(seenItems));
+                localStorage.setItem('xianyuMemoryIOS', JSON.stringify(seenItems));
                 document.getElementById('memoryCount').innerText = seenItems.length;
             }
 
             document.getElementById('countText').innerText = validCount;
-            log(`Lọc xong: Chặn ${fakeCount} rác | Ẩn ${oldSkipCount} cũ | Hiện ${validCount} deal!`, "success");
+            log(`Lọc xong: Chặn ${fakeCount} rác | Hiện ${validCount} deal!`, "success");
 
             const startBtn = document.getElementById('startBtn');
             startBtn.disabled = false;
